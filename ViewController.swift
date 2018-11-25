@@ -11,7 +11,8 @@ import os.log
 
 class ViewController: UIViewController {
     
-//    var tipPercentages = [0.15, 0.2, 0.25]
+    //MARK: Properties
+    
     var tips = Tips(newTipPercentages: [0.15, 0.2, 0.25])
 
     @IBOutlet weak var billField: UITextField!
@@ -19,13 +20,26 @@ class ViewController: UIViewController {
     @IBOutlet weak var totalLabel: UILabel!
     @IBOutlet weak var tipControl: UISegmentedControl!
     
+    //MARK: Methods
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        self.tipLabel.alpha = 0
+        self.totalLabel.alpha = 0
     }
     
     @IBAction func onTap(_ sender: Any) {
         view.endEditing(true)
+        
+        UIView.animate(withDuration: 0.4, animations: {
+            self.tipLabel.alpha = 1
+            self.totalLabel.alpha = 1
+
+        })
+        
+        let bill = Double(billField.text!) ?? 0
+        billField.text = String(format: "$%.0f", bill)
     }
     
     @IBAction func calculateTip(_ sender: Any) {
